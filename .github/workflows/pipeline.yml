@@ -42,14 +42,12 @@ jobs:
           tags: axiix/angular-starter-reference:test
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
-      - name: Debug docker images
-        run: docker images
       - name: Extract coverage
         id: extract_coverage
         uses: shrink/actions-docker-extract@v1
         with:
           image: axiix/angular-starter-reference:test
-          path: /usr/src/app/coverage/angular-starter.
+          path: /usr/src/app/coverage/angular-starter/.
       - name: Upload Coverage
         uses: actions/upload-artifact@v2
         with:
