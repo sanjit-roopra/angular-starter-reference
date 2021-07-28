@@ -27,8 +27,18 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          push: true
-          tags: axiix/angular-starter-reference:${{ steps.tag_version.outputs.new_tag }}
+          push: false
+          target: start
+          tags: axiix/angular-starter-reference:start
+          cache-from: type=gha, scope=${{ github.workflow }}
+          cache-to: type=gha, scope=${{ github.workflow }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          target: test
+          tags: axiix/angular-starter-reference:test
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
       
