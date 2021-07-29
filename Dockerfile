@@ -10,3 +10,12 @@ FROM start as test
 WORKDIR /usr/src/app
 COPY . .
 RUN npm run test:ci
+
+FROM start as builder
+WORKDIR /usr/src/app
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine as runtime
+COPY --from=builder /usr/src/app/dist/angular-starter /usr/share/nginx/html
+EXPOSE 80
