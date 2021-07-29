@@ -62,12 +62,6 @@ jobs:
       - name: Upload Junit
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ steps.extract_coverage.outputs.destination }}
-          name: coverage
-      - name: Save artifacts from build step
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifacts
-          path: |
-            ${{ steps.extract_coverage.outputs.destination }}
-            ${{ steps.extract_junit.outputs.destination }}
+          path: ${{ steps.extract_junit.outputs.destination }}
+          name: junit
+
