@@ -48,8 +48,26 @@ jobs:
         with:
           image: axiix/angular-starter-reference:test
           path: /usr/src/app/coverage/angular-starter/.
+      - name: Extract junit
+        id: extract_junit
+        uses: shrink/actions-docker-extract@v1
+        with:
+          image: axiix/angular-starter-reference:test
+          path: /usr/src/app/junit/.
       - name: Upload Coverage
         uses: actions/upload-artifact@v2
         with:
           path: ${{ steps.extract_coverage.outputs.destination }}
           name: coverage
+      - name: Upload Junit
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ steps.extract_coverage.outputs.destination }}
+          name: coverage
+      - name: Save artifacts from build step
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: |
+            ${{ steps.extract_coverage.outputs.destination }}
+            ${{ steps.extract_junit.outputs.destination }}
