@@ -60,6 +60,11 @@ jobs:
           tags: axiix/angular-starter-reference:${{ steps.tag_version.outputs.new_tag }}
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
+      - name: Prepare helm chart
+        run: |
+          sed -i -e "s/BUILD_VERSION/${{ steps.tag_version.outputs.new_tag }}/g" charts/angular-starter-reference/Chart.yaml
+          sed -i -e "s/HELM_VERSION/${{ steps.tag_version.outputs.new_version }}/g" charts/angular-starter-reference/Chart.yaml
+          sed -i -e "s/BUILD_VERSION/${{ steps.tag_version.outputs.new_tag }}/g" charts/angular-starter-reference/values.yaml
       - name: Extract coverage
         id: extract_coverage
         uses: shrink/actions-docker-extract@v1
@@ -82,4 +87,9 @@ jobs:
         with:
           path: ${{ steps.extract_junit.outputs.destination }}
           name: junit
+      - name: Upload Helm chart
+        uses: actions/upload-artifact@v2
+        with:
+          path: charts
+          name: angular-starter-reference-chart
 
