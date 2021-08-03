@@ -93,3 +93,23 @@ jobs:
           path: charts
           name: angular-starter-reference-chart
 
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2.3.4
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}' # Azure credentials
+          resourceGroupName: 'web-viewer-tl-20210713-k8'
+          clusterName: 'web-viewer-team-learning-20210713-kube'
+        id: login
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        id: install
+      - name: Deploy app
+        run: |
+          helm upgrade --install angular-starter-reference charts/angular-starter-reference/
+
